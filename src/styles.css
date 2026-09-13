@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brown: #5A3E36;
+  --beige: #F4EBE2;
+  --accent: #B8755A;
+  --paper: var(--beige);
+  --ink: var(--brown);
+  --muted: rgba(90, 62, 54, .68);
+  --rust: var(--accent);
+  --line: rgba(90, 62, 54, .18);
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'DM Sans', sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); }
+a { color: inherit; text-decoration: none; }
+button, input, textarea { font: inherit; }
