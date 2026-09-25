@@ -222,9 +222,11 @@
 }
 
 .story h2,
+.talk h2,
 .venue h2,
 .program h2,
-.rsvp h2 {
+.rsvp h2,
+.contributions h2 {
     font-family: var(--display);
     font-size: clamp(40px, 4.2vw, 64px);
     font-weight: 500;
@@ -234,12 +236,14 @@
 }
 
 .story-copy p,
+.talk-copy p,
 .venue-copy p,
-.rsvp-intro p {
+.rsvp-intro p,
+.contributions-intro p {
     color: var(--muted);
     font-size: 15px;
     line-height: 1.8;
-    max-width: 390px;
+    max-width: 480px;
 }
 
 .photo-one {
@@ -247,19 +251,83 @@
     min-height: 380px;
 }
 
+/* 01: Talk Section */
+.talk-section {
+    background: var(--paper);
+    grid-template-columns: 1fr 2.5fr;
+    gap: 60px;
+}
+
+.talk-copy {
+    display: flex;
+    flex-direction: column;
+    max-width: 680px;
+}
+
+.talk-subtitle {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.talk-copy h2 {
+    margin-bottom: 16px;
+}
+
+.talk-body {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 32px;
+    max-width: 620px;
+}
+
+.talk-location-card {
+    align-items: flex-start;
+    background: rgba(90, 62, 54, 0.04);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: flex;
+    gap: 18px;
+    padding: 24px 28px;
+}
+
+.location-pin {
+    font-size: 24px;
+    line-height: 1;
+    margin-top: 2px;
+}
+
+.location-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.location-details .address {
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* 02: Venue Section */
 .venue {
     background: var(--brown);
+    color: var(--beige);
     grid-template-columns: 1fr 1.4fr 1fr;
 }
 
-#venue-label {
-    color: var(--beige) !important;
-    display: flex;
-    flex-direction: column;
-    font-size: 10px;
-    gap: 16px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
+.venue .section-label {
+    color: rgba(244, 235, 226, 0.75);
+}
+
+.venue .number {
+    color: var(--accent);
 }
 
 .venue-photo {
@@ -267,13 +335,24 @@
     min-height: 470px;
 }
 
+.venue h2 {
+    color: var(--beige);
+}
+
 .venue-copy {
     align-self: end;
 }
 
+.venue-copy p {
+    color: rgba(244, 235, 226, 0.85);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
 .venue-copy .address {
     color: var(--beige);
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 500;
     margin-top: 32px;
 }
 
@@ -285,6 +364,11 @@
     margin-top: 4px;
     padding-bottom: 6px;
     text-transform: uppercase;
+    transition: opacity .2s;
+}
+
+.text-link:hover {
+    opacity: .8;
 }
 
 .text-link span {
@@ -293,15 +377,26 @@
     margin-left: 8px;
 }
 
+.text-link-light {
+    border-bottom-color: var(--beige);
+    color: var(--beige);
+}
+
+.text-link-light span {
+    color: var(--beige);
+}
+
+/* 03: Program / The Day */
 .program {
     display: grid;
     gap: 60px;
     grid-template-columns: .8fr 1.2fr;
-    padding: 140px clamp(24px, 11vw, 180px);
+    padding: 150px clamp(24px, 11vw, 180px);
 }
 
 .program-heading h2 {
-    margin-top: 80px;
+    font-size: clamp(44px, 5vw, 72px);
+    margin-top: 60px;
 }
 
 .timeline {
@@ -312,36 +407,40 @@
     align-items: center;
     border-bottom: 1px solid var(--line);
     display: grid;
-    gap: 24px;
-    grid-template-columns: 65px 16px 1fr;
-    padding: 27px 0;
+    gap: 28px;
+    grid-template-columns: 80px 20px 1fr;
+    padding: 34px 0;
 }
 
 .event-time {
     color: var(--rust);
     font-family: var(--display);
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: 500;
 }
 
 .event-dot {
     background: var(--rust);
     border-radius: 50%;
-    height: 7px;
-    width: 7px;
+    height: 9px;
+    width: 9px;
 }
 
-.event h3 {
-    font-size: 15px;
-    font-weight: 500;
-    margin: 0 0 5px;
+.event-info h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+    margin: 0 0 6px;
 }
 
-.event p {
+.event-info p {
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14px;
+    line-height: 1.5;
     margin: 0;
 }
 
+/* 04: RSVP Section */
 .rsvp {
     background: var(--accent);
     color: white;
@@ -364,10 +463,272 @@
     color: rgba(255, 255, 255, .82);
 }
 
+.rsvp-dietary-notice {
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 6px;
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    margin-right: 32px;
+    padding: 16px 18px;
+}
+
+.rsvp-dietary-notice .notice-icon {
+    font-size: 16px;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+.rsvp-dietary-notice p {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.rsvp-form-wrapper {
+    width: 100%;
+}
+
 .rsvp-form {
-    align-items: start;
-    display: grid;
-    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.form-input {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+    padding: 14px 16px;
+    transition: all .2s ease;
+    width: 100%;
+}
+
+.form-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--beige);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(244, 235, 226, 0.2);
+}
+
+.form-input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-card {
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+    padding: 12px 16px;
+    transition: all .2s ease;
+    user-select: none;
+}
+
+.radio-card:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+.radio-card.selected {
+    background: var(--beige);
+    border-color: var(--beige);
+    color: var(--brown);
+    font-weight: 500;
+}
+
+.radio-input-hidden {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.custom-radio {
+    align-items: center;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    display: flex;
+    flex-shrink: 0;
+    height: 18px;
+    justify-content: center;
+    transition: all .2s ease;
+    width: 18px;
+}
+
+.radio-card.selected .custom-radio {
+    border-color: var(--brown);
+}
+
+.radio-dot {
+    background: var(--brown);
+    border-radius: 50%;
+    height: 8px;
+    opacity: 0;
+    transform: scale(0.4);
+    transition: all .2s ease;
+    width: 8px;
+}
+
+.radio-card.selected .radio-dot {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.radio-text {
+    font-size: 14px;
+}
+
+.form-error {
+    background: rgba(140, 20, 20, 0.3);
+    border: 1px solid rgba(255, 180, 180, 0.3);
+    border-radius: 4px;
+    color: #fff0f0;
+    font-size: 13px;
+    margin: 4px 0 0;
+    padding: 10px 14px;
+}
+
+.rsvp-submit-btn {
+    border-radius: 4px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.rsvp-submit-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.rsvp-success {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.success-icon {
+    align-items: center;
+    background: var(--beige);
+    border-radius: 50%;
+    color: var(--brown);
+    display: flex;
+    font-size: 22px;
+    font-weight: bold;
+    height: 44px;
+    justify-content: center;
+    margin: 0 auto 16px;
+    width: 44px;
+}
+
+.rsvp-success h3 {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0 0 20px;
+}
+
+.reset-btn {
+    border-radius: 4px;
+}
+
+/* 05: Contributions & Organizers Section */
+.contributions {
+    background: var(--paper);
+    grid-template-columns: 1fr 1.2fr 1.3fr;
+    border-top: 1px solid var(--line);
+}
+
+.contributions-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contact-card {
+    background: rgba(90, 62, 54, 0.04);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px;
+    transition: all 0.25s ease;
+}
+
+.contact-card:hover {
+    background: white;
+    border-color: var(--accent);
+    box-shadow: 0 8px 24px rgba(90, 62, 54, 0.08);
+    transform: translateY(-2px);
+}
+
+.contact-role {
+    color: var(--accent);
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.contact-name {
+    color: var(--brown);
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 16px;
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-link {
+    align-items: center;
+    color: var(--ink);
+    display: inline-flex;
+    font-size: 13px;
+    gap: 10px;
+    transition: color 0.2s;
+}
+
+.contact-link:hover {
+    color: var(--accent);
+}
+
+.contact-icon {
+    font-size: 14px;
+    opacity: 0.8;
 }
 
 .button-dark {
@@ -378,12 +739,6 @@
 .button-dark:hover {
     background: var(--beige);
     color: var(--brown);
-}
-
-.form-message {
-    color: var(--beige);
-    font-size: 13px;
-    margin: 0;
 }
 
 footer {
@@ -441,12 +796,16 @@ footer a {
         margin-bottom: 42px;
     }
 
-    .story {
-        min-height: auto;
+    .talk-section {
+        display: block;
     }
 
-    .story-copy {
-        margin-bottom: 44px;
+    .talk-copy {
+        margin-top: 0;
+    }
+
+    .talk-location-card {
+        padding: 20px;
     }
 
     .photo-one,
@@ -463,16 +822,23 @@ footer a {
     }
 
     .event {
-        grid-template-columns: 52px 12px 1fr;
-        gap: 15px;
+        grid-template-columns: 70px 16px 1fr;
+        gap: 16px;
+        padding: 24px 0;
     }
 
-    .rsvp-intro {
+    .event-time {
+        font-size: 20px;
+    }
+
+    .rsvp-intro,
+    .contributions-intro {
         margin-bottom: 50px;
     }
 
-    .rsvp h2 {
-        font-size: 50px;
+    .rsvp h2,
+    .contributions h2 {
+        font-size: 44px;
     }
 
     footer {

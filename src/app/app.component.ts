@@ -1,10 +1,18 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 type Language = "en" | "de" | "it";
 
+interface ContactPerson {
+  role: string;
+  name: string;
+  phone: string;
+  email: string;
+}
+
 interface Copy {
-  nav: { story: string; day: string; rsvp: string };
+  nav: { talk: string; venue: string; day: string; rsvp: string; contributions: string };
   hero: {
     eyebrow: string;
     title: string;
@@ -12,13 +20,22 @@ interface Copy {
     date: string;
     cta: string;
   };
-  story: { eyebrow: string; title: string; body: string };
+  talk: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    subtitle: string;
+    address: string;
+    map: string;
+    mapUrl: string;
+  };
   venue: {
     eyebrow: string;
     title: string;
     body: string;
     address: string;
     map: string;
+    mapUrl: string;
   };
   program: {
     eyebrow: string;
@@ -29,8 +46,25 @@ interface Copy {
     eyebrow: string;
     title: string;
     body: string;
+    dietaryNote: string;
+    familyNameLabel: string;
+    familyNamePlaceholder: string;
+    attendanceLabel: string;
+    yesOption: string;
+    noOption: string;
     submit: string;
+    submitting: string;
     thanks: string;
+    requiredName: string;
+    requiredAttendance: string;
+    errorMessage: string;
+    reset: string;
+  };
+  contributions: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    contacts: ContactPerson[];
   };
   footer: string;
 }
@@ -38,7 +72,7 @@ interface Copy {
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
@@ -50,11 +84,22 @@ export class AppComponent {
   ];
 
   language: Language = "en";
+
+  // Set your Google Apps Script Web App URL or Automate Webhook URL here
+  googleScriptUrl: string = "";
+
+  rsvpForm = {
+    familyName: "",
+    attending: "" as "yes" | "no" | "",
+  };
+
+  submitting = false;
   submitted = false;
+  formError = "";
 
   readonly translations: Record<Language, Copy> = {
     en: {
-      nav: { story: "Our story", day: "The day", rsvp: "RSVP" },
+      nav: { talk: "The Talk", venue: "The Venue", day: "The Day", rsvp: "RSVP", contributions: "Program" },
       hero: {
         eyebrow: "Join us for our wedding",
         title: "Céline & Fabiyan",
@@ -63,50 +108,86 @@ export class AppComponent {
         date: "Sunday · 29 August 2027 · Pombia, Italy",
         cta: "Tell us you are coming",
       },
-      story: {
-        eyebrow: "The two of us",
-        title: "From a hello to forever.",
-        body: "Somewhere between a long walk home and a hundred shared dinners, we knew. Now we are making it official in the place that feels a little like a dream.",
+      talk: {
+        eyebrow: "The Talk",
+        title: "Wedding Talk",
+        subtitle: "The Marriage Ceremony",
+        body: "The wedding talk and ceremony will take place before we head to the reception venue. We would love for you to join us as we say our vows.",
+        address: "Via Pietro Generali, 58, 28100 Novara NO, Italy",
+        map: "Open in Google Maps",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
-        eyebrow: "The setting",
+        eyebrow: "The Venue",
         title: "Tenuta Monticello",
-        body: "",
+        body: "After the talk we can enjoy tasty food and good vibes and music in the wedding venue.",
         address: "Via Roma 25, 28050 Pombia NO, Italy",
-        map: "Open in maps",
+        map: "Open in Google Maps",
+        mapUrl:
+          "https://www.google.com/maps/place/Tenuta+Monticello/@45.65469,8.6346877,17z/data=!3m1!4b1!4m6!3m5!1s0x4786667f11edc65b:0x608ae8c18c7b5222!8m2!3d45.65469!4d8.6346877!16s%2Fg%2F1thvfths!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D",
       },
       program: {
-        eyebrow: "The day",
+        eyebrow: "The Day",
         title: "A little itinerary",
         events: [
           {
             time: "14:45",
-            title: "Talk in the Kingdom Hall",
-            detail: "Adress.....",
+            title: "Wedding Talk",
+            detail: "Via Pietro Generali, 58, 28100 Novara NO, Italy",
           },
           {
             time: "17:00",
-            title: "Apero",
-            detail: "Tenuta Monticello",
+            title: "Apero & Celebrations",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
           {
             time: "19:00",
-            title: "Dinner",
-            detail: "Tenuta Monticello",
+            title: "Dinner & Music",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
         ],
       },
       rsvp: {
-        eyebrow: "Before 28 February",
+        eyebrow: "RSVP",
         title: "Will you be there?",
-        body: "Please let us know if you can join us. We cannot wait to celebrate together.",
-        submit: "Send RSVP by email",
-        thanks: "Thank you. Your RSVP has been successfully sent.",
+        body: "Please let us know if you can join us by 28 February 2027. We cannot wait to celebrate together.",
+        dietaryNote: "Do you have any dietary restrictions, allergies or special wishes? Please send us a personal message so we can arrange everything for you.",
+        familyNameLabel: "Name of Family / Guests",
+        familyNamePlaceholder: "e.g. The Miller Family / John & Jane",
+        attendanceLabel: "Will you attend?",
+        yesOption: "Yes, we will be there",
+        noOption: "No, sadly we cannot make it",
+        submit: "Send RSVP",
+        submitting: "Sending RSVP...",
+        thanks: "Thank you! Your RSVP has been recorded.",
+        requiredName: "Please enter your family or guest name.",
+        requiredAttendance: "Please select whether you can attend.",
+        errorMessage: "Something went wrong while submitting. Please try again.",
+        reset: "Send another RSVP",
+      },
+      contributions: {
+        eyebrow: "Contributions & Surprises",
+        title: "Sketches, Videos & Surprises",
+        body: "Are you planning a sketch, a video presentation, a game, or a musical surprise for the celebration? Please contact our organizers in advance so they can coordinate the schedule seamlessly.",
+        contacts: [
+          {
+            role: "Master of Ceremonies",
+            name: "Luca Bianchi",
+            phone: "+41 79 123 45 67",
+            email: "luca@fabiceli.com",
+          },
+          {
+            role: "Program Coordinator",
+            name: "Elena Meier",
+            phone: "+39 340 987 6543",
+            email: "elena@fabiceli.com",
+          },
+        ],
       },
       footer: "With love, Fabiyan & Céline",
     },
     de: {
-      nav: { story: "Unsere Geschichte", day: "Der Tag", rsvp: "RSVP" },
+      nav: { talk: "Der Vortrag", venue: "Die Location", day: "Der Tag", rsvp: "RSVP", contributions: "Programm" },
       hero: {
         eyebrow: "Feiert mit uns unsere Hochzeit",
         title: "Céline & Fabiyan",
@@ -115,17 +196,23 @@ export class AppComponent {
         date: "Sonntag · 29. August 2027 · Pombia, Italien",
         cta: "Sagt uns, dass ihr kommt",
       },
-      story: {
-        eyebrow: "Wir zwei",
-        title: "Aus einem Hallo wurde für immer.",
-        body: "Irgendwo zwischen einem langen Spaziergang nach Hause und hundert gemeinsamen Abendessen wussten wir es. Jetzt machen wir es offiziell an dem Ort, der sich wie ein kleiner Traum anfühlt.",
+      talk: {
+        eyebrow: "Der Vortrag",
+        title: "Hochzeitsvortrag",
+        subtitle: "Die Trauung",
+        body: "Der Hochzeitsvortrag und die Trauung finden vor dem gemeinsamen Fest in der Tenuta Monticello statt. Wir freuen uns sehr, diesen besonderen Moment mit euch zu teilen.",
+        address: "Via Pietro Generali, 58, 28100 Novara NO, Italien",
+        map: "In Google Maps öffnen",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
         eyebrow: "Die Location",
         title: "Tenuta Monticello",
-        body: "",
+        body: "Nach dem Vortrag geniessen wir leckeres Essen, gute Stimmung und Musik in der Hochzeitslocation.",
         address: "Via Roma 25, 28050 Pombia NO, Italien",
         map: "In Google Maps öffnen",
+        mapUrl:
+          "https://www.google.com/maps/place/Tenuta+Monticello/@45.65469,8.6346877,17z/data=!3m1!4b1!4m6!3m5!1s0x4786667f11edc65b:0x608ae8c18c7b5222!8m2!3d45.65469!4d8.6346877!16s%2Fg%2F1thvfths!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D",
       },
       program: {
         eyebrow: "Der Tag",
@@ -133,32 +220,62 @@ export class AppComponent {
         events: [
           {
             time: "14:45",
-            title: "Vortrag im Königreichssaal",
-            detail: "Adresse.....",
+            title: "Hochzeitsvortrag",
+            detail: "Via Pietro Generali, 58, 28100 Novara NO, Italien",
           },
           {
             time: "17:00",
-            title: "Apéro",
-            detail: "Tenuta Monticello",
+            title: "Apéro & Feier",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
           {
             time: "19:00",
-            title: "Abendessen",
-            detail: "Tenuta Monticello",
+            title: "Abendessen & Musik",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
         ],
       },
       rsvp: {
-        eyebrow: "Vor dem 28. Februar",
+        eyebrow: "RSVP",
         title: "Seid ihr dabei?",
-        body: "Bitte lasst uns wissen, ob ihr dabei sein könnt. Wir können es kaum erwarten, zusammen zu feiern.",
-        submit: "RSVP per E-Mail senden",
-        thanks: "Vielen Dank. Eure Rückmeldung wurde erfolgreich gesendet.",
+        body: "Bitte gebt uns bis zum 28. Februar 2027 Bescheid. Wir können es kaum erwarten, zusammen zu feiern.",
+        dietaryNote: "Hast du Nahrungsmittelunverträglichkeiten, Allergien oder spezielle Wünsche? Bitte melde dich dazu gerne persönlich per Nachricht bei uns.",
+        familyNameLabel: "Name der Familie / Gäste",
+        familyNamePlaceholder: "z.B. Familie Müller / Max & Anna",
+        attendanceLabel: "Seid ihr dabei?",
+        yesOption: "Ja, wir sind dabei",
+        noOption: "Nein, leider schaffen wir es nicht",
+        submit: "RSVP absenden",
+        submitting: "Wird gesendet...",
+        thanks: "Vielen Dank! Eure Rückmeldung wurde erfasst.",
+        requiredName: "Bitte gebt euren Familien- oder Gästenamen ein.",
+        requiredAttendance: "Bitte wählt aus, ob ihr teilnehmen könnt.",
+        errorMessage: "Ein Fehler ist aufgetreten. Bitte versucht es erneut.",
+        reset: "Weitere Rückmeldung senden",
+      },
+      contributions: {
+        eyebrow: "Programm & Überraschungen",
+        title: "Sketche, Videos & Überraschungen",
+        body: "Plant ihr einen Sketch, ein Video, eine Rede oder einen musikalischen Beitrag für das Fest? Bitte meldet euch vorab bei unseren Organisatoren, damit alles optimal abgestimmt werden kann.",
+        contacts: [
+          {
+            role: "Zeremonienmeister",
+            name: "Luca Bianchi",
+            phone: "+41 79 123 45 67",
+            email: "luca@fabiceli.com",
+          },
+          {
+            role: "Programm-Koordination",
+            name: "Elena Meier",
+            phone: "+39 340 987 6543",
+            email: "elena@fabiceli.com",
+          },
+        ],
       },
       footer: "In Liebe, Fabiyan & Céline",
     },
     it: {
-      nav: { story: "La nostra storia", day: "La giornata", rsvp: "RSVP" },
+      nav: { talk: "Il discorso", venue: "La location", day: "La giornata", rsvp: "RSVP", contributions: "Programma" },
       hero: {
         eyebrow: "Festeggiate con noi il nostro matrimonio",
         title: "Céline & Fabiyan",
@@ -167,17 +284,23 @@ export class AppComponent {
         date: "Domenica · 29 agosto 2027 · Pombia, Italia",
         cta: "Fateci sapere se verrete",
       },
-      story: {
-        eyebrow: "Noi due",
-        title: "Da un ciao a per sempre.",
-        body: "Tra una lunga passeggiata verso casa e cento cene insieme, lo abbiamo capito. Ora lo rendiamo ufficiale nel luogo che sembra quasi un sogno.",
+      talk: {
+        eyebrow: "Il discorso",
+        title: "Discorso di matrimonio",
+        subtitle: "La Cerimonia",
+        body: "Il discorso di matrimonio si terrà prima di recarci al luogo del ricevimento. Non vediamo l'ora di condividere questo momento speciale insieme a voi.",
+        address: "Via Pietro Generali, 58, 28100 Novara NO, Italia",
+        map: "Apri in Google Maps",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
         eyebrow: "La location",
         title: "Tenuta Monticello",
-        body: "",
+        body: "Dopo il discorso ci godremo delizioso cibo, ottima atmosfera e musica nella location del matrimonio.",
         address: "Via Roma 25, 28050 Pombia NO, Italia",
-        map: "Apri nelle mappe",
+        map: "Apri in Google Maps",
+        mapUrl:
+          "https://www.google.com/maps/place/Tenuta+Monticello/@45.65469,8.6346877,17z/data=!3m1!4b1!4m6!3m5!1s0x4786667f11edc65b:0x608ae8c18c7b5222!8m2!3d45.65469!4d8.6346877!16s%2Fg%2F1thvfths!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D",
       },
       program: {
         eyebrow: "La giornata",
@@ -185,27 +308,57 @@ export class AppComponent {
         events: [
           {
             time: "14:45",
-            title: "Discorso nella Sala del Regno",
-            detail: "Indirizzo.....",
+            title: "Discorso di matrimonio",
+            detail: "Via Pietro Generali, 58, 28100 Novara NO, Italia",
           },
           {
             time: "17:00",
-            title: "Aperitivo",
-            detail: "Tenuta Monticello",
+            title: "Aperitivo & Festeggiamenti",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
           {
             time: "19:00",
-            title: "Cena",
-            detail: "Tenuta Monticello",
+            title: "Cena & Musica",
+            detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
         ],
       },
       rsvp: {
-        eyebrow: "Entro il 28 febbraio",
+        eyebrow: "RSVP",
         title: "Ci sarete?",
-        body: "Per favore fateci sapere se potrete essere dei nostri. Non vediamo l’ora di festeggiare insieme.",
-        submit: "Invia RSVP via email",
-        thanks: "Grazie. La tua conferma è stata inviata con successo.",
+        body: "Fateci sapere se potrete essere dei nostri entro il 28 febbraio 2027. Non vediamo l'ora di festeggiare insieme.",
+        dietaryNote: "Avete intolleranze alimentari, allergie o richieste particolari? Inviateci un messaggio personale per comunicarcelo.",
+        familyNameLabel: "Nome della famiglia / Ospiti",
+        familyNamePlaceholder: "es. Famiglia Rossi / Mario e Giulia",
+        attendanceLabel: "Sarete presenti?",
+        yesOption: "Sì, ci saremo con gioia",
+        noOption: "Purtroppo non potremo esserci",
+        submit: "Invia RSVP",
+        submitting: "Invio in corso...",
+        thanks: "Grazie! La vostra conferma è stata registrata.",
+        requiredName: "Inserisci il nome della famiglia o degli ospiti.",
+        requiredAttendance: "Seleziona se sarai presente o meno.",
+        errorMessage: "Si è verificato un errore. Riprova più tardi.",
+        reset: "Invia un'altra conferma",
+      },
+      contributions: {
+        eyebrow: "Programma & Sorprese",
+        title: "Sketch, Video & Sorprese",
+        body: "State pianificando uno sketch, una presentazione video, un gioco o una sorpresa musicale per la serata? Contattate in anticipo i nostri organizzatori per coordinare al meglio il programma.",
+        contacts: [
+          {
+            role: "Maestro di cerimonia",
+            name: "Luca Bianchi",
+            phone: "+41 79 123 45 67",
+            email: "luca@fabiceli.com",
+          },
+          {
+            role: "Coordinatrice programma",
+            name: "Elena Meier",
+            phone: "+39 340 987 6543",
+            email: "elena@fabiceli.com",
+          },
+        ],
       },
       footer: "Con affetto, Fabiyan & Céline",
     },
@@ -219,12 +372,54 @@ export class AppComponent {
     this.language = language;
   }
 
-  submitRsvp(): void {
-    this.submitted = true;
-    const subject = encodeURIComponent("Wedding RSVP");
-    const body = encodeURIComponent(
-      "Hello Fabiana and Celine,\n\nI would love to RSVP for your wedding.",
-    );
-    window.location.href = `mailto:hello@fabiceli.com?subject=${subject}&body=${body}`;
+  async submitRsvp(): Promise<void> {
+    if (!this.rsvpForm.familyName.trim()) {
+      this.formError = this.text.rsvp.requiredName;
+      return;
+    }
+    if (!this.rsvpForm.attending) {
+      this.formError = this.text.rsvp.requiredAttendance;
+      return;
+    }
+
+    this.formError = "";
+    this.submitting = true;
+
+    const payload = {
+      familyName: this.rsvpForm.familyName.trim(),
+      attending: this.rsvpForm.attending === "yes" ? "Yes" : "No",
+      language: this.language,
+      submittedAt: new Date().toLocaleString(),
+    };
+
+    try {
+      if (this.googleScriptUrl && this.googleScriptUrl.startsWith("http")) {
+        await fetch(this.googleScriptUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        console.log("RSVP data received (Google Apps Script URL not configured yet):", payload);
+      }
+      this.submitted = true;
+    } catch (error) {
+      console.error("Failed to submit RSVP to Google Sheet:", error);
+      this.formError = this.text.rsvp.errorMessage;
+    } finally {
+      this.submitting = false;
+    }
+  }
+
+  resetForm(): void {
+    this.rsvpForm = {
+      familyName: "",
+      attending: "",
+    };
+    this.submitted = false;
+    this.formError = "";
   }
 }
