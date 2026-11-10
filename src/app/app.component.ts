@@ -62,6 +62,7 @@ interface Copy {
     familyNameLabel: string;
     familyNamePlaceholder: string;
     attendanceLabel: string;
+    guestCountLabel: string;
     yesOption: string;
     noOption: string;
     submit: string;
@@ -69,6 +70,8 @@ interface Copy {
     thanks: string;
     requiredName: string;
     requiredAttendance: string;
+    requiredGuestCount: string;
+    endpointNotConfigured: string;
     errorMessage: string;
     reset: string;
   };
@@ -98,11 +101,12 @@ export class AppComponent {
   language: Language = "en";
 
   // Set your Google Apps Script Web App URL or Automate Webhook URL here
-  googleScriptUrl: string = "";
+  googleScriptUrl: string = "https://script.google.com/macros/s/AKfycbzO_duamj25yeuXWhNXUSmP1eoAEhopVa7IkItsBUdCiy8R4Gw6Uib_uYZtKboHCA/exec";
 
   rsvpForm = {
     familyName: "",
     attending: "" as "yes" | "no" | "",
+    guestCount: 1,
   };
 
   submitting = false;
@@ -179,9 +183,10 @@ export class AppComponent {
         title: "Will you be there?",
         body: "Please let us know if you can join us by 28 February 2027. We cannot wait to celebrate together.",
         dietaryNote: "Do you have any dietary restrictions, allergies or special wishes? Please send us a personal message so we can arrange everything for you.",
-        familyNameLabel: "Name of Family / Guests",
+        familyNameLabel: "Family name",
         familyNamePlaceholder: "e.g. The Miller Family / John & Jane",
         attendanceLabel: "Will you attend?",
+        guestCountLabel: "Number of guests attending",
         yesOption: "Yes, we will be there",
         noOption: "No, sadly we cannot make it",
         submit: "Send RSVP",
@@ -189,25 +194,21 @@ export class AppComponent {
         thanks: "Thank you! Your RSVP has been recorded.",
         requiredName: "Please enter your family or guest name.",
         requiredAttendance: "Please select whether you can attend.",
+        requiredGuestCount: "Please enter at least one guest.",
+        endpointNotConfigured: "The RSVP form is not connected yet. Please contact us directly.",
         errorMessage: "Something went wrong while submitting. Please try again.",
         reset: "Send another RSVP",
       },
       contributions: {
-        eyebrow: "Contributions & Surprises",
-        title: "Sketches, Videos & Surprises",
-        body: "Are you planning a sketch, a video, a speech, or a musical contribution for the celebration? Please contact our master of ceremonies, Dan Saccomanno, in advance so everything can be coordinated smoothly. For anything else, feel free to contact Fabiyan.",
+        eyebrow: "Organisation",
+        title: "Organiser",
+        body: "For organisational matters, please refer to Dan, our Festleiter.",
         contacts: [
           {
-            role: "Master of Ceremonies",
+            role: "Festleiter",
             name: "Dan Saccomanno",
             phone: "+41 79 269 26 91",
             email: "dansaccomannp@fabiceli.com",
-          },
-          {
-            role: "Groom",
-            name: "Fabiyan Beyeler",
-            phone: "+41 76 310 30 41",
-            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
@@ -282,9 +283,10 @@ export class AppComponent {
         title: "Seid ihr dabei?",
         body: "Bitte gebt uns bis zum 28. Februar 2027 Bescheid. Wir können es kaum erwarten, zusammen zu feiern.",
         dietaryNote: "Hast du Nahrungsmittelunverträglichkeiten, Allergien oder spezielle Wünsche? Bitte melde dich dazu gerne persönlich per Nachricht bei uns.",
-        familyNameLabel: "Name der Familie / Gäste",
+        familyNameLabel: "Familienname",
         familyNamePlaceholder: "z.B. Familie Müller / Max & Anna",
         attendanceLabel: "Seid ihr dabei?",
+        guestCountLabel: "Anzahl der teilnehmenden Gäste",
         yesOption: "Ja, wir sind dabei",
         noOption: "Nein, leider schaffen wir es nicht",
         submit: "RSVP absenden",
@@ -292,25 +294,21 @@ export class AppComponent {
         thanks: "Vielen Dank! Eure Rückmeldung wurde erfasst.",
         requiredName: "Bitte gebt euren Familien- oder Gästenamen ein.",
         requiredAttendance: "Bitte wählt aus, ob ihr teilnehmen könnt.",
+        requiredGuestCount: "Bitte gebt mindestens einen Gast an.",
+        endpointNotConfigured: "Das RSVP-Formular ist noch nicht verbunden. Bitte kontaktiert uns direkt.",
         errorMessage: "Ein Fehler ist aufgetreten. Bitte versucht es erneut.",
         reset: "Weitere Rückmeldung senden",
       },
       contributions: {
-        eyebrow: "Programm & Überraschungen",
-        title: "Sketche, Videos & Überraschungen",
-        body: "Plant ihr einen Sketch, ein Video, eine Rede oder einen musikalischen Beitrag für das Fest? Bitte meldet euch vorab bei unserem Festleiter Dan Saccomanno, damit alles optimal abgestimmt werden kann. Bei anderen Anliegen dürft ihr euch gerne auch an Fabiyan wenden.",
+        eyebrow: "Organisation",
+        title: "Organisator",
+        body: "Bei organisatorischen Fragen wendet euch bitte an Dan, unseren Festleiter.",
         contacts: [
           {
             role: "Festleiter",
             name: "Dan Saccomanno",
             phone: "+41 79 269 26 91",
             email: "dansaccomannp@fabiceli.com",
-          },
-          {
-            role: "Bräutigam",
-            name: "Fabiyan Beyeler",
-            phone: "+41 76 310 30 41",
-            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
@@ -385,9 +383,10 @@ export class AppComponent {
         title: "Ci sarete?",
         body: "Fateci sapere se potrete essere dei nostri entro il 28 febbraio 2027. Non vediamo l'ora di festeggiare insieme.",
         dietaryNote: "Avete intolleranze alimentari, allergie o richieste particolari? Inviateci un messaggio personale per comunicarcelo.",
-        familyNameLabel: "Nome della famiglia / Ospiti",
+        familyNameLabel: "Nome della famiglia",
         familyNamePlaceholder: "es. Famiglia Rossi / Mario e Giulia",
         attendanceLabel: "Sarete presenti?",
+        guestCountLabel: "Numero di ospiti partecipanti",
         yesOption: "Sì, ci saremo con gioia",
         noOption: "Purtroppo non potremo esserci",
         submit: "Invia RSVP",
@@ -395,25 +394,21 @@ export class AppComponent {
         thanks: "Grazie! La vostra conferma è stata registrata.",
         requiredName: "Inserisci il nome della famiglia o degli ospiti.",
         requiredAttendance: "Seleziona se sarai presente o meno.",
+        requiredGuestCount: "Indicate almeno un ospite.",
+        endpointNotConfigured: "Il modulo RSVP non è ancora collegato. Contattateci direttamente.",
         errorMessage: "Si è verificato un errore. Riprova più tardi.",
         reset: "Invia un'altra conferma",
       },
       contributions: {
-        eyebrow: "Programma & Sorprese",
-        title: "Sketch, Video & Sorprese",
-        body: "State preparando uno sketch, un video, un discorso o un contributo musicale per la festa? Contattate in anticipo il nostro maestro di cerimonia, Dan Saccomanno, così da poter coordinare tutto al meglio. Per qualsiasi altra cosa, potete rivolgervi anche a Fabiyan.",
+        eyebrow: "Organizzazione",
+        title: "Organizzatore",
+        body: "Per le questioni organizzative, rivolgetevi a Dan, il nostro responsabile dell'organizzazione.",
         contacts: [
           {
-            role: "Maestro di cerimonia",
+            role: "Organizzatore",
             name: "Dan Saccomanno",
             phone: "+41 79 269 26 91",
             email: "dansaccomannp@fabiceli.com",
-          },
-          {
-            role: "Sposo",
-            name: "Fabiyan Beyeler",
-            phone: "+41 76 310 30 41",
-            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
@@ -438,6 +433,14 @@ export class AppComponent {
       this.formError = this.text.rsvp.requiredAttendance;
       return;
     }
+    if (this.rsvpForm.attending === "yes" && (!Number.isInteger(this.rsvpForm.guestCount) || this.rsvpForm.guestCount < 1)) {
+      this.formError = this.text.rsvp.requiredGuestCount;
+      return;
+    }
+    if (!this.googleScriptUrl.trim().startsWith("https://")) {
+      this.formError = this.text.rsvp.endpointNotConfigured;
+      return;
+    }
 
     this.formError = "";
     this.submitting = true;
@@ -445,23 +448,19 @@ export class AppComponent {
     const payload = {
       familyName: this.rsvpForm.familyName.trim(),
       attending: this.rsvpForm.attending === "yes" ? "Yes" : "No",
+      guestCount: this.rsvpForm.attending === "yes" ? this.rsvpForm.guestCount : 0,
       language: this.language,
-      submittedAt: new Date().toLocaleString(),
     };
 
     try {
-      if (this.googleScriptUrl && this.googleScriptUrl.startsWith("http")) {
-        await fetch(this.googleScriptUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          body: JSON.stringify(payload),
-        });
-      } else {
-        console.log("RSVP data received (Google Apps Script URL not configured yet):", payload);
-      }
+      await fetch(this.googleScriptUrl.trim(), {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
+        },
+        body: JSON.stringify(payload),
+      });
       this.submitted = true;
     } catch (error) {
       console.error("Failed to submit RSVP to Google Sheet:", error);
@@ -475,6 +474,7 @@ export class AppComponent {
     this.rsvpForm = {
       familyName: "",
       attending: "",
+      guestCount: 1,
     };
     this.submitted = false;
     this.formError = "";
