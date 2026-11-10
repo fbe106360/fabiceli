@@ -440,7 +440,89 @@
     margin: 0;
 }
 
-/* 04: RSVP Section */
+/* 04: Accommodation */
+.accommodation {
+    background: white;
+    border-top: 1px solid var(--line);
+    grid-template-columns: 1fr 2.5fr;
+}
+
+.accommodation-content {
+    max-width: 860px;
+}
+
+.accommodation h2 {
+    margin-bottom: 16px;
+}
+
+.accommodation-body {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0 0 28px;
+}
+
+.accommodation-rates {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.rate {
+    align-items: baseline;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 1fr auto;
+    padding: 18px 0;
+}
+
+.rate-room {
+    color: var(--muted);
+    font-size: 13px;
+    grid-column: 1 / -1;
+    text-transform: uppercase;
+}
+
+.rate strong {
+    color: var(--brown);
+    font-family: var(--display);
+    font-size: 34px;
+    font-weight: 500;
+}
+
+.rate-period {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.breakfast-note {
+    color: var(--ink);
+    font-size: 13px;
+    margin: 16px 0 34px;
+}
+
+.booking-note {
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+}
+
+.booking-note h3 {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 8px;
+}
+
+.booking-note p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 0 0 14px;
+    max-width: 680px;
+}
+
+/* 05: RSVP Section */
 .rsvp {
     background: var(--accent);
     color: white;
@@ -661,7 +743,7 @@
     border-radius: 4px;
 }
 
-/* 05: Contributions & Organizers Section */
+/* 06: Contributions & Organizers Section */
 .contributions {
     background: var(--paper);
     grid-template-columns: 1fr 1.2fr 1.3fr;
@@ -817,6 +899,10 @@ footer a {
         margin-top: 42px;
     }
 
+    .accommodation-rates {
+        gap: 24px;
+    }
+
     .program-heading h2 {
         margin: 38px 0 55px;
     }
@@ -832,6 +918,7 @@ footer a {
     }
 
     .rsvp-intro,
+    .accommodation-content,
     .contributions-intro {
         margin-bottom: 50px;
     }

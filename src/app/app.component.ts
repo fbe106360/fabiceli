@@ -12,7 +12,7 @@ interface ContactPerson {
 }
 
 interface Copy {
-  nav: { talk: string; venue: string; day: string; rsvp: string; contributions: string };
+  nav: { talk: string; venue: string; day: string; accommodation: string; rsvp: string; contributions: string };
   hero: {
     eyebrow: string;
     title: string;
@@ -41,6 +41,18 @@ interface Copy {
     eyebrow: string;
     title: string;
     events: Array<{ time: string; title: string; detail: string }>;
+  };
+  accommodation: {
+    eyebrow: string;
+    title: string;
+    body: string;
+    rates: Array<{ room: string; price: string }>;
+    perNight: string;
+    breakfast: string;
+    bookingTitle: string;
+    booking: string;
+    link: string;
+    url: string;
   };
   rsvp: {
     eyebrow: string;
@@ -99,7 +111,7 @@ export class AppComponent {
 
   readonly translations: Record<Language, Copy> = {
     en: {
-      nav: { talk: "The Talk", venue: "The Venue", day: "The Day", rsvp: "RSVP", contributions: "Program" },
+      nav: { talk: "The Talk", venue: "The Venue", day: "The Day", accommodation: "Stay", rsvp: "RSVP", contributions: "Program" },
       hero: {
         eyebrow: "Join us for our wedding",
         title: "Céline & Fabiyan",
@@ -147,6 +159,21 @@ export class AppComponent {
           },
         ],
       },
+      accommodation: {
+        eyebrow: "Accommodation",
+        title: "Stay at Hotel La Perla",
+        body: "We have arranged a special rate for our guests at Hotel La Perla.",
+        rates: [
+          { room: "Single room", price: "€60" },
+          { room: "Double room", price: "€100" },
+        ],
+        perNight: "per night",
+        breakfast: "Breakfast included with both room rates.",
+        bookingTitle: "How to book",
+        booking: "Please book directly by email or phone for your preferred dates and mention our names, Fabiyan & Céline, to receive the special rate.",
+        link: "Hotel website & contact details",
+        url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+      },
       rsvp: {
         eyebrow: "RSVP",
         title: "Will you be there?",
@@ -168,26 +195,26 @@ export class AppComponent {
       contributions: {
         eyebrow: "Contributions & Surprises",
         title: "Sketches, Videos & Surprises",
-        body: "Are you planning a sketch, a video presentation, a game, or a musical surprise for the celebration? Please contact our organizers in advance so they can coordinate the schedule seamlessly.",
+        body: "Are you planning a sketch, a video, a speech, or a musical contribution for the celebration? Please contact our master of ceremonies, Dan Saccomanno, in advance so everything can be coordinated smoothly. For anything else, feel free to contact Fabiyan.",
         contacts: [
           {
             role: "Master of Ceremonies",
-            name: "Luca Bianchi",
-            phone: "+41 79 123 45 67",
-            email: "luca@fabiceli.com",
+            name: "Dan Saccomanno",
+            phone: "+41 79 269 26 91",
+            email: "dansaccomannp@fabiceli.com",
           },
           {
-            role: "Program Coordinator",
-            name: "Elena Meier",
-            phone: "+39 340 987 6543",
-            email: "elena@fabiceli.com",
+            role: "Groom",
+            name: "Fabiyan Beyeler",
+            phone: "+41 76 310 30 41",
+            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
       footer: "With love, Fabiyan & Céline",
     },
     de: {
-      nav: { talk: "Der Vortrag", venue: "Die Location", day: "Der Tag", rsvp: "RSVP", contributions: "Programm" },
+      nav: { talk: "Der Vortrag", venue: "Die Location", day: "Der Tag", accommodation: "Übernachtung", rsvp: "RSVP", contributions: "Programm" },
       hero: {
         eyebrow: "Feiert mit uns unsere Hochzeit",
         title: "Céline & Fabiyan",
@@ -235,6 +262,21 @@ export class AppComponent {
           },
         ],
       },
+      accommodation: {
+        eyebrow: "Übernachtung",
+        title: "Übernachten im Hotel La Perla",
+        body: "Für unsere Gäste haben wir im Hotel La Perla einen Sondertarif vereinbart.",
+        rates: [
+          { room: "Einzelzimmer", price: "60 €" },
+          { room: "Doppelzimmer", price: "100 €" },
+        ],
+        perNight: "pro Nacht",
+        breakfast: "Das Frühstück ist bei beiden Zimmerpreisen inklusive.",
+        bookingTitle: "Buchung",
+        booking: "Bitte bucht direkt per E-Mail oder Telefon für euren gewünschten Zeitraum und erwähnt unsere Namen, Fabiyan & Céline, um den Sondertarif zu erhalten.",
+        link: "Hotelwebsite & Kontaktdaten",
+        url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+      },
       rsvp: {
         eyebrow: "RSVP",
         title: "Seid ihr dabei?",
@@ -256,26 +298,26 @@ export class AppComponent {
       contributions: {
         eyebrow: "Programm & Überraschungen",
         title: "Sketche, Videos & Überraschungen",
-        body: "Plant ihr einen Sketch, ein Video, eine Rede oder einen musikalischen Beitrag für das Fest? Bitte meldet euch vorab bei unseren Organisatoren, damit alles optimal abgestimmt werden kann.",
+        body: "Plant ihr einen Sketch, ein Video, eine Rede oder einen musikalischen Beitrag für das Fest? Bitte meldet euch vorab bei unserem Festleiter Dan Saccomanno, damit alles optimal abgestimmt werden kann. Bei anderen Anliegen dürft ihr euch gerne auch an Fabiyan wenden.",
         contacts: [
           {
-            role: "Zeremonienmeister",
-            name: "Luca Bianchi",
-            phone: "+41 79 123 45 67",
-            email: "luca@fabiceli.com",
+            role: "Festleiter",
+            name: "Dan Saccomanno",
+            phone: "+41 79 269 26 91",
+            email: "dansaccomannp@fabiceli.com",
           },
           {
-            role: "Programm-Koordination",
-            name: "Elena Meier",
-            phone: "+39 340 987 6543",
-            email: "elena@fabiceli.com",
+            role: "Bräutigam",
+            name: "Fabiyan Beyeler",
+            phone: "+41 76 310 30 41",
+            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
       footer: "In Liebe, Fabiyan & Céline",
     },
     it: {
-      nav: { talk: "Il discorso", venue: "La location", day: "La giornata", rsvp: "RSVP", contributions: "Programma" },
+      nav: { talk: "Il discorso", venue: "La location", day: "La giornata", accommodation: "Alloggio", rsvp: "RSVP", contributions: "Programma" },
       hero: {
         eyebrow: "Festeggiate con noi il nostro matrimonio",
         title: "Céline & Fabiyan",
@@ -323,6 +365,21 @@ export class AppComponent {
           },
         ],
       },
+      accommodation: {
+        eyebrow: "Alloggio",
+        title: "Soggiornate all'Hotel La Perla",
+        body: "Abbiamo concordato una tariffa speciale per i nostri ospiti all'Hotel La Perla.",
+        rates: [
+          { room: "Camera singola", price: "60 €" },
+          { room: "Camera doppia", price: "100 €" },
+        ],
+        perNight: "a notte",
+        breakfast: "La colazione è inclusa in entrambe le tariffe.",
+        bookingTitle: "Come prenotare",
+        booking: "Per usufruire della tariffa speciale, prenotate direttamente via e-mail o telefono per le date desiderate e comunicate i nostri nomi, Fabiyan & Céline.",
+        link: "Sito dell'hotel e contatti",
+        url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+      },
       rsvp: {
         eyebrow: "RSVP",
         title: "Ci sarete?",
@@ -344,19 +401,19 @@ export class AppComponent {
       contributions: {
         eyebrow: "Programma & Sorprese",
         title: "Sketch, Video & Sorprese",
-        body: "State pianificando uno sketch, una presentazione video, un gioco o una sorpresa musicale per la serata? Contattate in anticipo i nostri organizzatori per coordinare al meglio il programma.",
+        body: "State preparando uno sketch, un video, un discorso o un contributo musicale per la festa? Contattate in anticipo il nostro maestro di cerimonia, Dan Saccomanno, così da poter coordinare tutto al meglio. Per qualsiasi altra cosa, potete rivolgervi anche a Fabiyan.",
         contacts: [
           {
             role: "Maestro di cerimonia",
-            name: "Luca Bianchi",
-            phone: "+41 79 123 45 67",
-            email: "luca@fabiceli.com",
+            name: "Dan Saccomanno",
+            phone: "+41 79 269 26 91",
+            email: "dansaccomannp@fabiceli.com",
           },
           {
-            role: "Coordinatrice programma",
-            name: "Elena Meier",
-            phone: "+39 340 987 6543",
-            email: "elena@fabiceli.com",
+            role: "Sposo",
+            name: "Fabiyan Beyeler",
+            phone: "+41 76 310 30 41",
+            email: "fabiyan.beyeler@protonmail.com",
           },
         ],
       },
