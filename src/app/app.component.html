@@ -1,6 +1,6 @@
 <main>
   <nav class="nav-shell" aria-label="Main navigation">
-    <a class="wordmark" href="#top" aria-label="Fabiana and Celine">F <span>&</span> C</a>
+    <a class="wordmark" href="#top" aria-label="Fabiyan and Celine">C <span>&</span> F</a>
     <div class="nav-links">
       <a href="#talk">{{ text.nav.talk }}</a>
       <a href="#venue">{{ text.nav.venue }}</a>
@@ -92,11 +92,17 @@
         </div>
       </div>
       <p class="breakfast-note">{{ text.accommodation.breakfast }}</p>
-      <div class="booking-note">
+      <div class="booking-note flex flex-col gap-2">
         <h3>{{ text.accommodation.bookingTitle }}</h3>
         <p>{{ text.accommodation.booking }}</p>
         <a class="text-link" [href]="text.accommodation.url" target="_blank" rel="noreferrer">
           {{ text.accommodation.link }} <span aria-hidden="true">↗</span>
+        </a>
+        <a class="text-link" [href]="'mailto:' +text.accommodation.email" target="_blank" rel="noreferrer">
+          {{ text.accommodation.emailTitle }} <span aria-hidden="true">↗</span>
+        </a>
+        <a class="text-link" [href]="'tel:' +text.accommodation.tel" target="_blank" rel="noreferrer">
+          {{ text.accommodation.telTitle }} <span aria-hidden="true">↗</span>
         </a>
       </div>
     </div>
@@ -226,7 +232,7 @@
   </section>
 
   <footer>
-    <span class="wordmark">F <span>&</span> C</span>
+    <span class="wordmark">C <span>&</span> F</span>
     <p>{{ text.footer }}</p>
     <a href="#top">Back to top ↑</a>
   </footer>

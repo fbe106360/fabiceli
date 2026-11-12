@@ -12,7 +12,14 @@ interface ContactPerson {
 }
 
 interface Copy {
-  nav: { talk: string; venue: string; day: string; accommodation: string; rsvp: string; contributions: string };
+  nav: {
+    talk: string;
+    venue: string;
+    day: string;
+    accommodation: string;
+    rsvp: string;
+    contributions: string;
+  };
   hero: {
     eyebrow: string;
     title: string;
@@ -53,6 +60,10 @@ interface Copy {
     booking: string;
     link: string;
     url: string;
+    emailTitle: string;
+    email: string;
+    telTitle: string;
+    tel: string;
   };
   rsvp: {
     eyebrow: string;
@@ -101,7 +112,8 @@ export class AppComponent {
   language: Language = "en";
 
   // Set your Google Apps Script Web App URL or Automate Webhook URL here
-  googleScriptUrl: string = "https://script.google.com/macros/s/AKfycbzO_duamj25yeuXWhNXUSmP1eoAEhopVa7IkItsBUdCiy8R4Gw6Uib_uYZtKboHCA/exec";
+  googleScriptUrl: string =
+    "https://script.google.com/macros/s/AKfycbzO_duamj25yeuXWhNXUSmP1eoAEhopVa7IkItsBUdCiy8R4Gw6Uib_uYZtKboHCA/exec";
 
   rsvpForm = {
     familyName: "",
@@ -115,36 +127,44 @@ export class AppComponent {
 
   readonly translations: Record<Language, Copy> = {
     en: {
-      nav: { talk: "The Talk", venue: "The Venue", day: "The Day", accommodation: "Stay", rsvp: "RSVP", contributions: "Program" },
+      nav: {
+        talk: "Wedding Talk",
+        venue: "Tenuta Monticello",
+        day: "Summary",
+        accommodation: "Accomodation option",
+        rsvp: "Let us know",
+        contributions: "Organiser",
+      },
       hero: {
         eyebrow: "Join us for our wedding",
         title: "Céline & Fabiyan",
         intro:
           "We are getting married and would love to celebrate this new chapter with the people who make our story special.",
         date: "Sunday · 29 August 2027 · Pombia, Italy",
-        cta: "Tell us you are coming",
+        cta: "Will you celebrate with us?",
       },
       talk: {
         eyebrow: "The Talk",
         title: "Wedding Talk",
-        subtitle: "The Marriage Ceremony",
-        body: "The wedding talk and ceremony will take place before we head to the reception venue. We would love for you to join us as we say our vows.",
+        subtitle: "",
+        body: "We will begin the day with the wedding talk at the Kingdom Hall in Novara at 14:45. Afterwards, we will make our way to the reception venue to celebrate.",
         address: "Via Pietro Generali, 58, 28100 Novara NO, Italy",
         map: "Open in Google Maps",
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
         eyebrow: "The Venue",
         title: "Tenuta Monticello",
-        body: "After the talk we can enjoy tasty food and good vibes and music in the wedding venue.",
+        body: "At the Monticello, we look forward to enjoying wonderful moments togheter, celebrating and making memories with all our loved ones.",
         address: "Via Roma 25, 28050 Pombia NO, Italy",
         map: "Open in Google Maps",
         mapUrl:
           "https://www.google.com/maps/place/Tenuta+Monticello/@45.65469,8.6346877,17z/data=!3m1!4b1!4m6!3m5!1s0x4786667f11edc65b:0x608ae8c18c7b5222!8m2!3d45.65469!4d8.6346877!16s%2Fg%2F1thvfths!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwOS4wIKXMDSoASAFQAw%3D%3D",
       },
       program: {
-        eyebrow: "The Day",
-        title: "A little itinerary",
+        eyebrow: "Summary",
+        title: "Overview",
         events: [
           {
             time: "14:45",
@@ -153,20 +173,15 @@ export class AppComponent {
           },
           {
             time: "17:00",
-            title: "Apero & Celebrations",
-            detail: "Tenuta Monticello · Via Roma 25, Pombia",
-          },
-          {
-            time: "19:00",
-            title: "Dinner & Music",
-            detail: "Tenuta Monticello · Via Roma 25, Pombia",
+            title: "Apero & Dinner",
+            detail: "Tenuta Monticello · Via Roma 25, 28050 Pombia NO, Italy",
           },
         ],
       },
       accommodation: {
-        eyebrow: "Accommodation",
-        title: "Stay at Hotel La Perla",
-        body: "We have arranged a special rate for our guests at Hotel La Perla.",
+        eyebrow: "Accommodation option",
+        title: "Optional stay at Hotel La Perla",
+        body: "For those who wish to stay nearby, we have arranged a offer including breackfast at the Hotel La Perla.",
         rates: [
           { room: "Single room", price: "€60" },
           { room: "Double room", price: "€100" },
@@ -174,48 +189,63 @@ export class AppComponent {
         perNight: "per night",
         breakfast: "Breakfast included with both room rates.",
         bookingTitle: "How to book",
-        booking: "Please book directly by email or phone for your preferred dates and mention our names, Fabiyan & Céline, to receive the special rate.",
-        link: "Hotel website & contact details",
+        booking:
+          "Reservations can be made directly with Hotel la Perla by email or phone. You can simply mention our names, Céline & Fabiyan, for the offer (please do note that online bookings are not available for this offer).",
+        link: "Hotel website:",
         url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+        emailTitle: "Email:",
+        email: "mailto:info@hotelristorantelaperla.com",
+        telTitle: "Phone:",
+        tel: "+39 0321 921447",
       },
       rsvp: {
-        eyebrow: "RSVP",
-        title: "Will you be there?",
-        body: "Please let us know if you can join us by 28 February 2027. We cannot wait to celebrate together.",
-        dietaryNote: "Do you have any dietary restrictions, allergies or special wishes? Please send us a personal message so we can arrange everything for you.",
+        eyebrow: "Let us know",
+        title: "Will you celebrate with us?",
+        body: "Please let us know if you can join us by 15 January 2027",
+        dietaryNote:
+          "Do you have any dietary restrictions, allergies or special wishes? Please send us a personal message so we can arrange everything for you.",
         familyNameLabel: "Family name",
-        familyNamePlaceholder: "e.g. The Miller Family / John & Jane",
+        familyNamePlaceholder: "e.g. Parker / James & Maria",
         attendanceLabel: "Will you attend?",
         guestCountLabel: "Number of guests attending",
         yesOption: "Yes, we will be there",
-        noOption: "No, sadly we cannot make it",
-        submit: "Send RSVP",
-        submitting: "Sending RSVP...",
-        thanks: "Thank you! Your RSVP has been recorded.",
+        noOption: "No, we cannot make it",
+        submit: "Send Your Response",
+        submitting: "Sending Your Response...",
+        thanks: "Thank you! Your Response has been recorded.",
         requiredName: "Please enter your family or guest name.",
         requiredAttendance: "Please select whether you can attend.",
         requiredGuestCount: "Please enter at least one guest.",
-        endpointNotConfigured: "The RSVP form is not connected yet. Please contact us directly.",
-        errorMessage: "Something went wrong while submitting. Please try again.",
-        reset: "Send another RSVP",
+        endpointNotConfigured:
+          "The RSVP form is not connected yet. Please contact us directly.",
+        errorMessage:
+          "Something went wrong while submitting. Please try again.",
+        reset: "Send another Response",
       },
       contributions: {
-        eyebrow: "Organisation",
+        eyebrow: "Organiser",
         title: "Organiser",
-        body: "For organisational matters, please refer to Dan, our Festleiter.",
+        body: "For organisational matters, please refer to Dan, our Organiser.",
         contacts: [
           {
-            role: "Festleiter",
+            role: "Contact",
             name: "Dan Saccomanno",
             phone: "+41 79 269 26 91",
-            email: "dansaccomannp@fabiceli.com",
+            email: "dan@fabiceli.ch",
           },
         ],
       },
-      footer: "With love, Fabiyan & Céline",
+      footer: "With love,  Céline & Fabiyan",
     },
     de: {
-      nav: { talk: "Der Vortrag", venue: "Die Location", day: "Der Tag", accommodation: "Übernachtung", rsvp: "RSVP", contributions: "Programm" },
+      nav: {
+        talk: "Der Vortrag",
+        venue: "Die Location",
+        day: "Der Tag",
+        accommodation: "Übernachtung",
+        rsvp: "RSVP",
+        contributions: "Programm",
+      },
       hero: {
         eyebrow: "Feiert mit uns unsere Hochzeit",
         title: "Céline & Fabiyan",
@@ -231,7 +261,8 @@ export class AppComponent {
         body: "Der Hochzeitsvortrag und die Trauung finden vor dem gemeinsamen Fest in der Tenuta Monticello statt. Wir freuen uns sehr, diesen besonderen Moment mit euch zu teilen.",
         address: "Via Pietro Generali, 58, 28100 Novara NO, Italien",
         map: "In Google Maps öffnen",
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
         eyebrow: "Die Location",
@@ -256,11 +287,6 @@ export class AppComponent {
             title: "Apéro & Feier",
             detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
-          {
-            time: "19:00",
-            title: "Abendessen & Musik",
-            detail: "Tenuta Monticello · Via Roma 25, Pombia",
-          },
         ],
       },
       accommodation: {
@@ -274,15 +300,21 @@ export class AppComponent {
         perNight: "pro Nacht",
         breakfast: "Das Frühstück ist bei beiden Zimmerpreisen inklusive.",
         bookingTitle: "Buchung",
-        booking: "Bitte bucht direkt per E-Mail oder Telefon für euren gewünschten Zeitraum und erwähnt unsere Namen, Fabiyan & Céline, um den Sondertarif zu erhalten.",
+        booking:
+          "Bitte bucht direkt per E-Mail oder Telefon für euren gewünschten Zeitraum und erwähnt unsere Namen, Fabiyan & Céline, um den Sondertarif zu erhalten.",
         link: "Hotelwebsite & Kontaktdaten",
         url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+        emailTitle: "Email:",
+        email: "mailto:info@hotelristorantelaperla.com",
+        telTitle: "Phone:",
+        tel: "+39 0321 921447",
       },
       rsvp: {
         eyebrow: "RSVP",
         title: "Seid ihr dabei?",
         body: "Bitte gebt uns bis zum 28. Februar 2027 Bescheid. Wir können es kaum erwarten, zusammen zu feiern.",
-        dietaryNote: "Hast du Nahrungsmittelunverträglichkeiten, Allergien oder spezielle Wünsche? Bitte melde dich dazu gerne persönlich per Nachricht bei uns.",
+        dietaryNote:
+          "Hast du Nahrungsmittelunverträglichkeiten, Allergien oder spezielle Wünsche? Bitte melde dich dazu gerne persönlich per Nachricht bei uns.",
         familyNameLabel: "Familienname",
         familyNamePlaceholder: "z.B. Familie Müller / Max & Anna",
         attendanceLabel: "Seid ihr dabei?",
@@ -295,7 +327,8 @@ export class AppComponent {
         requiredName: "Bitte gebt euren Familien- oder Gästenamen ein.",
         requiredAttendance: "Bitte wählt aus, ob ihr teilnehmen könnt.",
         requiredGuestCount: "Bitte gebt mindestens einen Gast an.",
-        endpointNotConfigured: "Das RSVP-Formular ist noch nicht verbunden. Bitte kontaktiert uns direkt.",
+        endpointNotConfigured:
+          "Das RSVP-Formular ist noch nicht verbunden. Bitte kontaktiert uns direkt.",
         errorMessage: "Ein Fehler ist aufgetreten. Bitte versucht es erneut.",
         reset: "Weitere Rückmeldung senden",
       },
@@ -315,7 +348,14 @@ export class AppComponent {
       footer: "In Liebe, Fabiyan & Céline",
     },
     it: {
-      nav: { talk: "Il discorso", venue: "La location", day: "La giornata", accommodation: "Alloggio", rsvp: "RSVP", contributions: "Programma" },
+      nav: {
+        talk: "Il discorso",
+        venue: "La location",
+        day: "La giornata",
+        accommodation: "Alloggio",
+        rsvp: "RSVP",
+        contributions: "Programma",
+      },
       hero: {
         eyebrow: "Festeggiate con noi il nostro matrimonio",
         title: "Céline & Fabiyan",
@@ -331,7 +371,8 @@ export class AppComponent {
         body: "Il discorso di matrimonio si terrà prima di recarci al luogo del ricevimento. Non vediamo l'ora di condividere questo momento speciale insieme a voi.",
         address: "Via Pietro Generali, 58, 28100 Novara NO, Italia",
         map: "Apri in Google Maps",
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Via+Pietro+Generali+58+28100+Novara+NO+Italy",
       },
       venue: {
         eyebrow: "La location",
@@ -356,11 +397,6 @@ export class AppComponent {
             title: "Aperitivo & Festeggiamenti",
             detail: "Tenuta Monticello · Via Roma 25, Pombia",
           },
-          {
-            time: "19:00",
-            title: "Cena & Musica",
-            detail: "Tenuta Monticello · Via Roma 25, Pombia",
-          },
         ],
       },
       accommodation: {
@@ -374,15 +410,21 @@ export class AppComponent {
         perNight: "a notte",
         breakfast: "La colazione è inclusa in entrambe le tariffe.",
         bookingTitle: "Come prenotare",
-        booking: "Per usufruire della tariffa speciale, prenotate direttamente via e-mail o telefono per le date desiderate e comunicate i nostri nomi, Fabiyan & Céline.",
+        booking:
+          "Per usufruire della tariffa speciale, prenotate direttamente via e-mail o telefono per le date desiderate e comunicate i nostri nomi, Fabiyan & Céline.",
         link: "Sito dell'hotel e contatti",
         url: "https://www.hotelristorantelaperla.it/it/hotel-ristorante-4-stelle-varallo-pombia/hotel",
+        emailTitle: "Email:",
+        email: "mailto:info@hotelristorantelaperla.com",
+        telTitle: "Phone:",
+        tel: "+39 0321 921447",
       },
       rsvp: {
         eyebrow: "RSVP",
         title: "Ci sarete?",
         body: "Fateci sapere se potrete essere dei nostri entro il 28 febbraio 2027. Non vediamo l'ora di festeggiare insieme.",
-        dietaryNote: "Avete intolleranze alimentari, allergie o richieste particolari? Inviateci un messaggio personale per comunicarcelo.",
+        dietaryNote:
+          "Avete intolleranze alimentari, allergie o richieste particolari? Inviateci un messaggio personale per comunicarcelo.",
         familyNameLabel: "Nome della famiglia",
         familyNamePlaceholder: "es. Famiglia Rossi / Mario e Giulia",
         attendanceLabel: "Sarete presenti?",
@@ -395,7 +437,8 @@ export class AppComponent {
         requiredName: "Inserisci il nome della famiglia o degli ospiti.",
         requiredAttendance: "Seleziona se sarai presente o meno.",
         requiredGuestCount: "Indicate almeno un ospite.",
-        endpointNotConfigured: "Il modulo RSVP non è ancora collegato. Contattateci direttamente.",
+        endpointNotConfigured:
+          "Il modulo RSVP non è ancora collegato. Contattateci direttamente.",
         errorMessage: "Si è verificato un errore. Riprova più tardi.",
         reset: "Invia un'altra conferma",
       },
@@ -433,7 +476,11 @@ export class AppComponent {
       this.formError = this.text.rsvp.requiredAttendance;
       return;
     }
-    if (this.rsvpForm.attending === "yes" && (!Number.isInteger(this.rsvpForm.guestCount) || this.rsvpForm.guestCount < 1)) {
+    if (
+      this.rsvpForm.attending === "yes" &&
+      (!Number.isInteger(this.rsvpForm.guestCount) ||
+        this.rsvpForm.guestCount < 1)
+    ) {
       this.formError = this.text.rsvp.requiredGuestCount;
       return;
     }
@@ -448,7 +495,8 @@ export class AppComponent {
     const payload = {
       familyName: this.rsvpForm.familyName.trim(),
       attending: this.rsvpForm.attending === "yes" ? "Yes" : "No",
-      guestCount: this.rsvpForm.attending === "yes" ? this.rsvpForm.guestCount : 0,
+      guestCount:
+        this.rsvpForm.attending === "yes" ? this.rsvpForm.guestCount : 0,
       language: this.language,
     };
 

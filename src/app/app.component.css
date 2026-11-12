@@ -83,7 +83,7 @@
 }
 
 .hero-image {
-    background: url('../img/header.png') center/cover;
+    background: url('../img/header.jpeg') center/cover;
     inset: 0;
     position: absolute;
 }
@@ -520,6 +520,10 @@
     line-height: 1.7;
     margin: 0 0 14px;
     max-width: 680px;
+}
+
+.booking-note .text-link {
+    align-self: flex-start;
 }
 
 /* 05: RSVP Section */
